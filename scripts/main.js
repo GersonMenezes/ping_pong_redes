@@ -3,8 +3,8 @@ const canvasCtx = canvasEl.getContext("2d");
 let gapX = 10;
 let paddle_p2 = 240;
 let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0};
-let width_global = window.innerWidth;
-let height_global = window.innerHeight;
+let width_global = 1300;
+let height_global = 700;
 
 var socket = new WebSocket('ws://25.65.155.201:8080/ws');
 
@@ -281,11 +281,11 @@ function handleKeyPress(event) {
 
     //document.addEventListener("keypress", handleKeyPress);
    document.addEventListener("keypress", handleKeyPress2);
-   window.addEventListener('resize', () => {
+   /*window.addEventListener('resize', () => {
         width_global = window.innerWidth;
         height_global = window.innerHeight;
         console.log(`Nova largura: ${field.w}, Nova altura: ${field.h}`);
-});
+});*/
 
   
   // ----------- Teclas reservadas para a página: up, down, home e end. ------------------

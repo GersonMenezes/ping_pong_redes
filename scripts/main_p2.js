@@ -4,12 +4,12 @@ const gapX = 10;
 let mouse = {x: 0, y: 0 }
 let ballPostionX;
 let ballPostionY;
-let width_global = window.innerWidth;
-let height_global = window.innerHeight;
+let width_global = 1300;
+let height_global = 700;
 let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0};
 
 // ------------------ WebSocket ------------------//
-var socket = new WebSocket('ws://192.168.219.221:8080/ws');
+var socket = new WebSocket('ws://25.65.155.201:8080/ws');
 
 socket.onopen = function(event) {
     console.log('Player 2 está Conectado ao servidor WebSocket');
@@ -283,11 +283,11 @@ function handleKeyPress(event) {
   // Adicionar ouvintes de eventos aos eventos de pressionar e soltar teclas
 
     document.addEventListener("keypress", handleKeyPress);
-    window.addEventListener('resize', () => {
+    /*window.addEventListener('resize', () => {
         width_global = window.innerWidth;
         height_global = window.innerHeight;
         console.log(`Nova largura: ${field.w}, Nova altura: ${field.h}`);
-});
+});*/
    //document.addEventListener("keypress", handleKeyPress2);
 
   

@@ -38,7 +38,7 @@ class MyWebSocketServer implements MessageComponentInterface
 
         // Enviar a mensagem tratada para todos os clientes, exceto o remetente original
         foreach ($this->clients as $client) {
-            if ($client !== $from) {
+            if ($client !== $from) { // Menos quem enviou
                 $client->send($msg);
             }
         }
