@@ -4,10 +4,12 @@ const gapX = 10;
 let mouse = {x: 0, y: 0 }
 let ballPostionX;
 let ballPostionY;
+let width_global = window.innerWidth;
+let height_global = window.innerHeight;
 let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0};
 
 // ------------------ WebSocket ------------------//
-var socket = new WebSocket('ws://localhost:8080/ws');
+var socket = new WebSocket('ws://192.168.219.221:8080/ws');
 
 socket.onopen = function(event) {
     console.log('Player 2 está Conectado ao servidor WebSocket');
@@ -53,6 +55,8 @@ const field = {
     w: window.innerWidth,
     h: window.innerHeight,
     draw: function(){
+        this.w = width_global
+        this.h = height_global
         //Campo
         canvasCtx.fillStyle = "#286047"
         canvasCtx.fillRect(this.x, this.y, this.w, this.h)
@@ -65,6 +69,7 @@ const line = {
     y: field.y,
     h: field.h,
     draw: function(){
+        this.x = (width_global/2) - (15/2)
         //Linha do meio
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.fillRect(this.x, this.y, this.w, this.h)
@@ -85,8 +90,8 @@ const score = {
         canvasCtx.textAlign = "center"
         canvasCtx.textBaseline = "top"
         canvasCtx.fillStyle = "#01341D"
-        canvasCtx.fillText(data['score_p1'], field.w / 4, 50)
-        canvasCtx.fillText(data['score_p2'], field.w / 2 + field.w / 4, 50)
+        canvasCtx.fillText(data['score_p1'], width_global / 4, 50)
+        canvasCtx.fillText(data['score_p2'], width_global / 2 + width_global / 4, 50)
     }
 }
 
@@ -119,7 +124,7 @@ const leftPaddle = {
 }
 
 const rightPaddle = {
-    x: field.w - line.w - gapX,
+    x: width_global - line.w - gapX,
     y: 240,
     w: line.w,
     h: 200,
@@ -141,6 +146,7 @@ const rightPaddle = {
         }
     },
     draw: function(){
+        this.x = width_global - line.w - gapX
         //Raquete 2
         //console.log("Testando")
         canvasCtx.fillStyle = "#ffffff"
@@ -277,6 +283,11 @@ function handleKeyPress(event) {
   // Adicionar ouvintes de eventos aos eventos de pressionar e soltar teclas
 
     document.addEventListener("keypress", handleKeyPress);
+    window.addEventListener('resize', () => {
+        width_global = window.innerWidth;
+        height_global = window.innerHeight;
+        console.log(`Nova largura: ${field.w}, Nova altura: ${field.h}`);
+});
    //document.addEventListener("keypress", handleKeyPress2);
 
   

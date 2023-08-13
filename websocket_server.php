@@ -3,6 +3,9 @@
 require 'vendor/autoload.php';
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use Ratchet\Server\IoServer;
+use Ratchet\Http\HttpServer;
+use Ratchet\WebSocket\WsServer;
 
 echo "Okay, servidor aberto...";
 
@@ -59,6 +62,14 @@ class MyWebSocketServer implements MessageComponentInterface
     }
 }
 
-$server = new \Ratchet\App('localhost', 8080);
-$server->route('/ws', new MyWebSocketServer(), array('*'));
+$server = IoServer::factory(
+    new HttpServer(
+        new WsServer(
+            new MyWebSocketServer()
+        )
+    ),
+    8080,
+    '0.0.0.0' // ou substitua por um IP local específico da sua máquina
+);
+
 $server->run();

@@ -3,8 +3,10 @@ const canvasCtx = canvasEl.getContext("2d");
 let gapX = 10;
 let paddle_p2 = 240;
 let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0};
+let width_global = window.innerWidth;
+let height_global = window.innerHeight;
 
-var socket = new WebSocket('ws://localhost:8080/ws');
+var socket = new WebSocket('ws://25.65.155.201:8080/ws');
 
 socket.onopen = function(event) {
     //console.log('Player ' + player + ' Conectado ao servidor WebSocket');
@@ -44,12 +46,14 @@ const image = {
 const field = {
     x: 0,
     y: 0,
-    w: window.innerWidth,
-    h: window.innerHeight,
+    w: width_global,
+    h: height_global,
     draw: function(){
         //Campo
+        this.w = width_global
+        this.h = height_global
         canvasCtx.fillStyle = "#286047"
-        canvasCtx.fillRect(this.x, this.y, this.w, this.h)
+        canvasCtx.fillRect(this.x, this.y, width_global, height_global)
     }
 }
 
@@ -59,6 +63,8 @@ const line = {
     y: field.y,
     h: field.h,
     draw: function(){
+        this.h = height_global
+        this.x = (width_global/2) - (15/2)
         //Linha do meio
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.fillRect(this.x, this.y, this.w, this.h)
@@ -84,8 +90,8 @@ const score = {
         canvasCtx.textAlign = "center"
         canvasCtx.textBaseline = "top"
         canvasCtx.fillStyle = "#01341D"
-        canvasCtx.fillText(this.player1, field.w / 4, 50)
-        canvasCtx.fillText(this.player2, field.w / 2 + field.w / 4, 50)
+        canvasCtx.fillText(this.player1, width_global / 4, 50)
+        canvasCtx.fillText(this.player2, width_global / 2 + width_global / 4, 50)
     }
 }
 
@@ -123,7 +129,7 @@ const leftPaddle = {
 }
 
 const rightPaddle = {
-    x: field.w - line.w - gapX,
+    x: width_global - line.w - gapX,
     y: 240,
     w: line.w,
     h: 200,
@@ -140,6 +146,7 @@ const rightPaddle = {
         }
     },*/
     draw: function(){
+        this.x = width_global - line.w - gapX
         //Raquete 2
         //console.log("Testando")
         canvasCtx.fillStyle = "#ffffff"
@@ -274,6 +281,11 @@ function handleKeyPress(event) {
 
     //document.addEventListener("keypress", handleKeyPress);
    document.addEventListener("keypress", handleKeyPress2);
+   window.addEventListener('resize', () => {
+        width_global = window.innerWidth;
+        height_global = window.innerHeight;
+        console.log(`Nova largura: ${field.w}, Nova altura: ${field.h}`);
+});
 
   
   // ----------- Teclas reservadas para a página: up, down, home e end. ------------------
