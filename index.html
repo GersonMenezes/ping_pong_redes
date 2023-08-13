@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>Helllo world!</h1>
+    <form action="app.html" method="post">
+        <button name="button" onclick="setPlayer1()" method="post">Payer 1</button>
+        <button name="button" onclick="setPlayer2()" method="post">Player 2</button>
+    </form>
+          
+<script>
+    function setPlayer1(){
+        localStorage.setItem('value', 1)
+    }
+    function setPlayer2(){
+        localStorage.setItem('value', 2)
+    }
+</script>
+    
+</body>
+</html>

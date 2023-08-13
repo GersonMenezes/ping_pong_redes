@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping-Pong</title>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
+<body>
+    <canvas id="myCanvas"></canvas>
+    
+    <script>
+        // Carregamento dinâmico do script
+        if(localStorage.getItem('value') == 1){
+            var script = document.createElement('script');
+            script.src = 'scripts/main.js';
+            document.body.appendChild(script);
+        }else if(localStorage.getItem('value') == 2){
+            var script = document.createElement('script');
+            script.src = 'scripts/main_p2.js';
+            document.body.appendChild(script);
+        } 
+    </script>
+    
+</body>
+</html>
