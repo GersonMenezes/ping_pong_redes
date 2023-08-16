@@ -4,7 +4,7 @@ html{
     padding: 0;
 }
 
-body {
+.body-index {
     font-family: 'Quicksand', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
