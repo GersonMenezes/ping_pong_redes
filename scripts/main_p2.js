@@ -9,7 +9,8 @@ let height_global = 700;
 let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0};
 
 // ------------------ WebSocket ------------------//
-var socket = new WebSocket('ws://25.65.155.201:8080/ws');
+// Abre conexão com o servidor websocket, mudar o IP.
+var socket = new WebSocket('ws://10.15.114.82:8080/ws');
 
 socket.onopen = function(event) {
     console.log('Player 2 está Conectado ao servidor WebSocket');
@@ -32,7 +33,7 @@ socket.onclose = function(event) {
 
 // Cria uma nova instância de imagem
 var imagem = new Image();
-imagem.src = "images/image4.png";
+imagem.src = "images/image.png";
 
 // Define as coordenadas x e y da imagem
 const image = {
@@ -76,15 +77,7 @@ const line = {
     }
 }
 const score = {
-    /*
-    player1: 0,
-    player2: 0,
-    increasePlayer1: function(){
-        this.player1++
-    },
-    increasePlayer2: function(){
-        this.player2++
-    },*/
+
     draw: function () {
         canvasCtx.font = "bold 72px Arial"
         canvasCtx.textAlign = "center"
@@ -101,25 +94,10 @@ const leftPaddle = {
     w: line.w,
     h: 200,
     speed: 10,
-    /*
-    _moveUp: function(){
-        if (leftPaddle.y > field.y){
-          this.y -= this.speed
-        }
-    },
-    _moveDown: function(){
-        if (leftPaddle.y + leftPaddle.h < field.h){
-           this.y += this.speed
-        }
-    },
-    _move: function(){
-        //this.y = mouse.y - 100
-    },*/
     draw: function(){
         //Raquete 1
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.fillRect(this.x, data['paddle_y'], this.w, this.h)
-        //this._move()
     }
 }
 
@@ -147,8 +125,6 @@ const rightPaddle = {
     },
     draw: function(){
         this.x = width_global - line.w - gapX
-        //Raquete 2
-        //console.log("Testando")
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.fillRect(this.x, this.y, this.w, this.h)
     }
@@ -161,57 +137,15 @@ const ball = {
     directionY: 1,
     r: 20,
     speed: 5,
-    /*
-    _move: function(){
-        if(player == 2){
-            this.x = ballPostionX
-            this.y = ballPostionX
-        }else{
-            this.x += this.directionX * this.speed
-            this.y += this.directionY * this.speed
-            var data = {x: this.x, y: this.y};
-            var json_data = JSON.stringify(data);
-            if (socket.readyState === WebSocket.OPEN) socket.send(json_data);
-        }
-    },
-    pointUp: function(){
-        this.x = field.w/2
-        this.y = field.h/2
-    },
-    _calcPosition: function () {
-        if (this.y >= (field.h-this.r)) {
-            this.directionY = -1; 
-        }else if (this.y <= field.y) {
-            this.directionY = 1;
-        // Verifica bola na linha de fundo do player 2
-        }else if (this.x >= (rightPaddle.x - this.r)){ 
-            if (this.y >= rightPaddle.y && this.y <= (rightPaddle.y + rightPaddle.h)){
-                this.directionX = -1;
-            }else{
-                score.increasePlayer1()
-                this.pointUp()
-            }
-        }else if (this.x <= (leftPaddle.x+this.r+line.w)) {
-            if(this.y >= leftPaddle.y && this.y <= (leftPaddle.y + leftPaddle.h)){
-                this.directionX = 1;
-            }else{
-                score.increasePlayer2()
-                this.pointUp()
-            }
-        }
-    },*/
     draw: function(){
             //Bola
         canvasCtx.fillStyle = "#ffffff"
         canvasCtx.beginPath()
         canvasCtx.arc(data['ball_x'], data['ball_y'], this.r, 2 * Math.PI, false) // False é sentido anti-horário
         canvasCtx.fill() 
-        //this._calcPosition()
-        //this._move()
     }
 }
 
-  
   // Carrega a imagem e inicia a animação quando estiver pronta
   imagem.onload = function() {
     image.draw();
@@ -252,13 +186,6 @@ function main() {
 
 setup()
 main()
-/*
-canvasEl.addEventListener("mousemove", function (e) {
-    mouse.x = e.pageX
-    mouse.y = e.pageY
-    socket.send("Coordenadas x e y" + e.pageX + " - "+ e.pageY);
-})
-*/
 
 // Variáveis para controlar o estado das teclas
   const keysState = {};
@@ -283,39 +210,9 @@ function handleKeyPress(event) {
   // Adicionar ouvintes de eventos aos eventos de pressionar e soltar teclas
 
     document.addEventListener("keypress", handleKeyPress);
-    /*window.addEventListener('resize', () => {
+    window.addEventListener('resize', () => {
         width_global = window.innerWidth;
         height_global = window.innerHeight;
         console.log(`Nova largura: ${field.w}, Nova altura: ${field.h}`);
-});*/
-   //document.addEventListener("keypress", handleKeyPress2);
-
-  
-  // ----------- Teclas reservadas para a página: up, down, home e end. ------------------
-/*
-// Função para tratar o evento de pressionar uma tecla
-function handleKeyDown(event) {
-  keysState[event.key] = true;
-
-  // Verificar as teclas de seta e Home/End
-  if (keysState.ArrowUp) {
-    rightPaddle._moveUp();
-  } else if (keysState.ArrowDown) {
-    rightPaddle._moveDown();
-  } else if (keysState.Home) {
-    leftPaddle._moveUp();
-  } else if (keysState.End) {
-    leftPaddle._moveDown();
-  }
-}
-
-// Função para tratar o evento de soltar uma tecla
-function handleKeyUp(event) {
-  keysState[event.key] = false;
-}
-
-// Adicionar ouvintes de eventos aos eventos de pressionar e soltar teclas
-document.addEventListener("keydown", handleKeyDown);
-document.addEventListener("keyup", handleKeyUp);
-*/
+});
 

@@ -12,11 +12,11 @@
     
     <script>
         // Carregamento dinâmico do script
-        if(localStorage.getItem('value') == 1){
+        if(localStorage.getItem('p1') == 1){
             var script = document.createElement('script');
             script.src = 'scripts/main.js';
             document.body.appendChild(script);
-        }else if(localStorage.getItem('value') == 2){
+        }else if(localStorage.getItem('p2') == 2){
             var script = document.createElement('script');
             script.src = 'scripts/main_p2.js';
             document.body.appendChild(script);
