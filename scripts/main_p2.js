@@ -1,4 +1,13 @@
+const container = document.createElement("div");
+container.style.width = "100vw";
+container.style.height = "100vh";
 const canvasEl = document.getElementById("myCanvas");
+container.appendChild(canvasEl);
+const body = document.querySelector("body");
+body.appendChild(container);
+canvasEl.width = parent.offsetWidth;
+canvasEl.height = parent.offsetHeight;
+canvasEl.classList.add("full-dimension");
 const canvasCtx = canvasEl.getContext("2d");
 const gapX = 10;
 let mouse = {x: 0, y: 0 }
@@ -6,7 +15,7 @@ let ballPostionX;
 let ballPostionY;
 let width_global = 1300;
 let height_global = 700;
-let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0};
+let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0, p2on: true};
 
 // ------------------ WebSocket ------------------//
 // Abre conexão com o servidor websocket, mudar o IP.
@@ -184,6 +193,20 @@ function main() {
     draw()
 }
 
+//timeStart = setInterval(waitingPlayer, 1000);
+function waitingPlayer(){
+
+    // Obtendo o valor do localStorage
+    
+    var player2on = true;
+    console.log("Player 2 on: " + player2on); // Vai exibir: "Este é o valor que quero armazenar."
+
+    if (event.key === "w"){
+        clearInterval(timeStart)
+        main()
+    }
+}
+
 setup()
 main()
 
@@ -210,9 +233,11 @@ function handleKeyPress(event) {
   // Adicionar ouvintes de eventos aos eventos de pressionar e soltar teclas
 
     document.addEventListener("keypress", handleKeyPress);
-    window.addEventListener('resize', () => {
-        width_global = window.innerWidth;
-        height_global = window.innerHeight;
-        console.log(`Nova largura: ${field.w}, Nova altura: ${field.h}`);
-});
-
+// window.addEventListener('resize', () => {
+//     canvasEl.style.width = container.offsetWidth;
+//     canvasEl.style.height = container.offsetHeight;  
+//     console.log(`Nova largura: ${width_global}, Nova altura: ${height_global}`);
+// });
+    
+    
+    

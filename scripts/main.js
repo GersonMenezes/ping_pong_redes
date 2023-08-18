@@ -1,10 +1,20 @@
+const container = document.createElement("div");
+container.style.width = "100vw";
+container.style.height = "100vh";
 const canvasEl = document.getElementById("myCanvas");
+container.appendChild(canvasEl);
+const body = document.querySelector("body");
+body.appendChild(container);
+canvasEl.width = parent.offsetWidth;
+canvasEl.height = parent.offsetHeight;
+canvasEl.classList.add("full-dimension");
 const canvasCtx = canvasEl.getContext("2d");
 let gapX = 10;
 let paddle_p2 = 240;
-let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0};
-let width_global = 1300;
-let height_global = 700;
+let data = {ball_x: 0, ball_y: 0, paddle_y: 0, score_p1: 0, score_p2: 0, p2on: false};
+let width_global = window.innerWidth;
+let height_global = window.innerHeight;
+let p2on;
 
 // Abre conexão com o servidor websocket, mudar o IP.
 var socket = new WebSocket('ws://10.15.114.82:8080/ws');
@@ -14,9 +24,9 @@ socket.onopen = function(event) {
 };
 
 socket.onmessage = function(event) {
-    var data_p2 = JSON.parse(event.data);
+    var data_p2 = JSON.parse(event.data)
     paddle_p2 = parseInt(data_p2['paddle_y'])
-    
+    p2on = data_p2['p2on']
 };
 
 socket.onclose = function(event) {
@@ -31,8 +41,8 @@ imagem.src = "images/image.png";
 
 // Define as coordenadas x e y da imagem
 const image = {
-    x: 0,
-    y: 0,
+    x: width_global/2 - 40,
+    y: height_global/2 - 40,
     _move: function(){
         this.x = ball.x - 40;
         this.y = ball.y - 40;
@@ -201,7 +211,7 @@ const ball = {
   
   // Carrega a imagem e inicia a animação quando estiver pronta
   imagem.onload = function() {
-    image.draw();
+    draw();
   };
 
 function setup() {
@@ -240,14 +250,16 @@ function main() {
 setup()
 main()
 
+// Espera o jogador 2 entrar para começar o jogo
 //timeStart = setInterval(waitingPlayer, 1000);
 function waitingPlayer(){
 
     // Obtendo o valor do localStorage
-    var valorArmazenado = localStorage.getItem('p2');
-    console.log(valorArmazenado); // Vai exibir: "Este é o valor que quero armazenar."
+    
+    var player2on = true;
+    console.log("Player 2 on: " + player2on); // Vai exibir: "Este é o valor que quero armazenar."
 
-    if(valorArmazenado == 2){
+    if(player2on){
         clearInterval(timeStart)
         main()
     }
@@ -262,23 +274,24 @@ function handleKeyPress(event) {
         rightPaddle._moveUp()
     } else if (event.key === "5") {
         rightPaddle._moveDown()
-     }
-  }
+    }
+}
 
-  function handleKeyPress2(event) {
+function handleKeyPress2(event) {
     if (event.key === "w") {     
         leftPaddle._moveUp()
     } else if (event.key === "s") {
         leftPaddle._moveDown()
     }
-  }
+}
 
-   document.addEventListener("keypress", handleKeyPress2);
-   window.addEventListener('resize', () => {
-        width_global = window.innerWidth;
-        height_global = window.innerHeight;
-        console.log(`Nova largura: ${field.w}, Nova altura: ${field.h}`);
-});
+document.addEventListener("keypress", handleKeyPress2);
+
+// window.addEventListener('resize', () => {
+//     canvasEl.style.width = container.offsetWidth;
+//     canvasEl.style.height = container.offsetHeight;  
+//     console.log(`Nova largura: ${width_global}, Nova altura: ${height_global}`);
+// });
 
 
 
